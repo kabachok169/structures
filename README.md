@@ -8,8 +8,8 @@
 ## Содержание:
 
 
-* [Sorted array]()
-* [Sorted list]()
+* [Sorted array](#sorted-array)
+* [Sorted list](#sorted-list)
 * [Sorted expanded list]()
 
 ***

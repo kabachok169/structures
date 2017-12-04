@@ -106,8 +106,6 @@ namespace ad {
                 return right_edge;
             else
                 return -1;
-
-
         }
 
 

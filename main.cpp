@@ -64,6 +64,12 @@ int main() {
 
         myelist.print();
 
+        std::cout << myelist.erase(20) << std::endl;
+        std::cout << myelist.search(15) << std::endl;
+        std::cout << myelist.search(20) << std::endl;
+
+        myelist.print();
+
 
     }
 

@@ -44,36 +44,6 @@ namespace ad {
 
                 size_t index = calc_insert_place(_data, compare);
 
-//                if(length == capacity) {
-//
-//                    auto new_ptr = std::make_shared<Node<L>>(capacity);
-//                    new_ptr->next = this->next;
-//                    if(this->next)
-//                        this->next->prev = new_ptr;
-//                    this->next = new_ptr;
-//
-//
-//                    size_t k = 0;
-//
-//                    for(size_t i = length / 2 + 1; i < length; ++i, ++k) {
-//
-//                        new_ptr->array_ptr[k] = array_ptr[i];
-//                        ++new_ptr->length;
-//
-//                    }
-//
-//                    length -= k;
-//
-//                    if(index > length / 2)
-//                        new_ptr->add(_data, compare);
-//                    else
-//                        this->add(_data, compare);
-//
-//                    return false;
-//                }
-
-
-
                 for(size_t i = length; i > index;) {
 
                     array_ptr[i] = array_ptr[--i];
@@ -84,14 +54,46 @@ namespace ad {
                 ++length;
 
                 return true;
-
             }
 
 
             bool has_space() {
 
                 return length < capacity;
+            }
 
+
+            bool erase(L _data) {
+
+                if(!length)
+                    return false;
+
+                for(int i = 0; i < length; ++i) {
+                    if(array_ptr[i] == _data) {
+                        for(int j = i; j < length - 1; ++j)
+                            array_ptr[j] = array_ptr[j + 1];
+                        --length;
+                        if(!length)
+                            del();
+
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+
+            bool search(L _data) {
+                if(!length)
+                    return false;
+
+                for(int i = 0; i < length; ++i) {
+                    if(array_ptr[i] == _data)
+                        return true;
+                }
+
+                return false;
             }
 
 
@@ -101,7 +103,6 @@ namespace ad {
                     throw std::invalid_argument("Too big to be true");
 
                 return array_ptr[index];
-
             }
 
 
@@ -115,6 +116,7 @@ namespace ad {
                 stream << element.array_ptr[element.length - 1] << " ]";
 
             }
+
 
             void del(){
                 if(this->prev)
@@ -206,7 +208,7 @@ namespace ad {
 
             auto ptr = head;
 
-            while(ptr->next) {
+            while(ptr) {
 
                 if(compare_func(_data, ptr->array_ptr[ptr->length - 1])) {
 
@@ -226,25 +228,39 @@ namespace ad {
                         else
                             ptr->prev->next = new_ptr;
                         ptr->prev = new_ptr;
+
                         new_ptr->add(_data, compare_func);
                         ++length;
                         return;
                     }
 
-                    new_ptr->next = ptr->next;
-                    new_ptr->prev = ptr;
-                    if(ptr->next)
+                    if(ptr->next) {
+                        if(ptr->next->has_space()) {
+                            ptr->next->add(ptr->array_ptr[--ptr->length], compare_func);
+                            ptr->add(_data, compare_func);
+                            ++length;
+                            return;
+                        }
                         ptr->next->prev = new_ptr;
+                    }
+                    else
+                        tail = new_ptr;
+
+                    new_ptr->prev = ptr;
+                    new_ptr->next = ptr->next;
                     ptr->next = new_ptr;
+
                     new_ptr->add(ptr->array_ptr[--ptr->length], compare_func);
                     ptr->add(_data, compare_func);
                     ++length;
                     return;
-
                 }
 
                 ptr = ptr->next;
             }
+
+
+            ptr = tail;
 
             if(ptr->has_space()) {
                 ptr->add(_data, compare_func);
@@ -254,39 +270,71 @@ namespace ad {
 
             auto new_ptr = std::make_shared<Node<T>>(size);
 
-            if(compare_func(_data, ptr->array_ptr[ptr->length - 1])) {
+            tail = new_ptr;
 
-                if(compare_func(_data, ptr->array_ptr[0])) {
+            new_ptr->prev = ptr;
+            new_ptr->next;
+            ptr->next = new_ptr;
 
-                    new_ptr->prev = ptr->prev;
-                    new_ptr->next = ptr;
-                    if(!ptr->prev)
-                        head = new_ptr;
-                    else
-                        ptr->prev->next = new_ptr;
-                    ptr->prev = new_ptr;
-                    new_ptr->add(_data, compare_func);
-                    ++length;
-                    return;
+            new_ptr->add(_data, compare_func);
+            ++length;
+        }
+
+
+        bool erase(T _data) {
+
+            if(head == nullptr)
+                return false;
+
+            auto ptr = head;
+
+            while(ptr) {
+                if (compare_func(_data, ptr->array_ptr[ptr->length - 1]) || _data == ptr->array_ptr[ptr->length - 1]) {
+                    if (ptr->erase(_data)) {
+                        --length;
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
                 }
 
-                new_ptr->prev = ptr;
-                ptr->next = new_ptr;
-                new_ptr->add(ptr->array_ptr[--ptr->length], compare_func);
-                tail = new_ptr;
-                ptr->add(_data, compare_func);
-                ++length;
-                return;
+
+                ptr = ptr->next;
+
             }
-            else {
-                new_ptr->prev = ptr;
-                ptr->next = new_ptr;
-                new_ptr->add(_data, compare_func);
-                ++length;
-                return;
-            }
+            return false;
+        }
 
 
+        bool search(T _data) {
+            if(head == nullptr)
+                return false;
+
+            auto ptr = head;
+
+            while(ptr) {
+                if (compare_func(_data, ptr->array_ptr[ptr->length - 1]) || _data == ptr->array_ptr[ptr->length - 1])
+                    return ptr->search(_data);
+
+                ptr = ptr->next;
+            }
+            return false;
+        }
+
+
+        const T& operator[](size_t index) {
+            if(index >= length)
+                throw std::invalid_argument("too big to be true");
+            auto ptr = head;
+            while(ptr) {
+
+                if(index >= ptr->length)
+                    index -= ptr->length;
+                else
+                    return ptr->array_ptr[index];
+                ptr = ptr->next;
+            }
         }
 
 

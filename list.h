@@ -6,6 +6,8 @@
 #include <iostream>
 #include <memory>
 #include <functional>
+#include <fstream>
+#include <ctime>
 
 
 namespace ad {
@@ -41,18 +43,27 @@ namespace ad {
 
     public:
 
-        list(std::function<bool(const T&, const T&)> compare = std::less<T>()) : head(nullptr),
+        list(std::string file = "/home/anton/projects/bmstu/algs/structures/output", std::function<bool(const T&, const T&)> compare = std::less<T>()) : head(nullptr),
                                                                                  tail(nullptr),
                                                                                  length(0),
-                                                                                 compare_func(compare) {}
+                                                                                 compare_func(compare) {
+            output.open(file);
+        }
 
 
         void add(T _data) {
 
+            clock_t start = clock();
+
             if (head == nullptr) {
+
+
                 head = std::make_shared<Node<T>> (_data);
                 tail = head;
                 ++length;
+
+                clock_t end = clock();
+                output << (double)(end - start) << std::endl;
 
                 return;
             }
@@ -67,6 +78,9 @@ namespace ad {
                     element->prev = ptr;
                     tail = element;
                     ++length;
+
+                    clock_t end = clock();
+                    output << (double)(end - start) << std::endl;
 
                     return;
                 }
@@ -83,23 +97,32 @@ namespace ad {
                 head = element;
             ptr->prev = element;
             ++length;
+            clock_t end = clock();
+            output << (double)(end - start) << std::endl;
         }
 
 
         bool erase(T _data) {
 
+            clock_t start = clock();
             if (!length) return false;
 
             auto ptr = head;
 
             while (ptr->data != _data){
                 ptr = ptr->next;
-                if(!ptr)
+                if(!ptr) {
+                    clock_t end = clock();
+                    output << (double)(end - start) << std::endl;
                     return false;
+                }
             }
 
             (*ptr).del();
             --length;
+
+            clock_t end = clock();
+            output << (double)(end - start) << std::endl;
 
             return true;
         }
@@ -107,6 +130,7 @@ namespace ad {
 
         const bool search(T _data){
 
+            clock_t start = clock();
             if (!length)
                 return false;
 
@@ -114,8 +138,11 @@ namespace ad {
 
             while (ptr->data != _data){
                 ptr = ptr->next;
-                if(!ptr)
+                if(!ptr) {
+                    clock_t end = clock();
+                    output << (double)(end - start) << std::endl;
                     return false;
+                }
             }
 
             return true;
@@ -168,6 +195,7 @@ namespace ad {
 
     private:
 
+        std::fstream output;
         std::function<bool(const T&, const T&)> compare_func;
         std::shared_ptr<Node<T>> head;
         std::shared_ptr<Node<T>> tail;
@@ -175,9 +203,6 @@ namespace ad {
     };
 
 }
-
-
-
 
 
 #endif //LISTS_LIST_H

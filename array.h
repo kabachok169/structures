@@ -9,8 +9,7 @@
 #include <memory>
 #include <functional>
 #include <cmath>
-#include <fstream>
-#include <ctime>
+
 
 namespace ad {
 
@@ -21,19 +20,15 @@ namespace ad {
     public:
 
         explicit array(size_t start_size = 1, float amortization_c = 1.5,
-                       std::string file = "/home/anton/projects/bmstu/algs/structures/output",
                        std::function<bool(const T &, const T &)> compare = std::less<T>()) : length(0),
-                                                                                    amortization(amortization_c),
-                                                                                    capacity(start_size),
-                                                                                    compare_func(compare) {
-            output.open(file);
+                                                                                             amortization(amortization_c),
+                                                                                             capacity(start_size),
+                                                                                             compare_func(compare) {
             array_ptr = new T[capacity];
         }
 
 
         void add(T _data) {
-
-            clock_t start = clock();
 
             if(length >= capacity) {
                 try {
@@ -47,8 +42,6 @@ namespace ad {
             if(length == 0) {
                 array_ptr[length] = _data;
                 ++length;
-                clock_t end = clock();
-                output << (double)(end - start) << std::endl;
 
                 return;
             }
@@ -63,21 +56,14 @@ namespace ad {
 
             array_ptr[index] = _data;
             ++length;
-            clock_t end = clock();
-            output << (double)(end - start) << std::endl;
-
         }
 
 
         bool erase(T _data){
 
-            clock_t start = clock();
-
             long int index = search(_data);
 
             if(index < 0) {
-                clock_t end = clock();
-                output << (double)(end - start) << std::endl;
                 return false;
             }
 
@@ -86,8 +72,6 @@ namespace ad {
             }
 
             --length;
-            clock_t end = clock();
-            output << (double)(end - start) << std::endl;
 
             return true;
 
@@ -96,7 +80,6 @@ namespace ad {
 
         long int search(T _data) {                       //binary search
 
-            clock_t start = clock();
 
             size_t c_multiply = 2;
             size_t right_edge = calc_edge(_data, c_multiply);
@@ -113,8 +96,6 @@ namespace ad {
                 size_t mdl = (right_edge + left_edge) / 2;
 
                 if(array_ptr[mdl] == _data) {
-                    clock_t end = clock();
-                    output << (double)(end - start) << std::endl;
                     return mdl;
                 }
 
@@ -125,13 +106,9 @@ namespace ad {
             }
 
             if(array_ptr[right_edge] == _data) {
-                clock_t end = clock();
-                output << (double)(end - start) << std::endl;
                 return right_edge;
             }
             else {
-                clock_t end = clock();
-                output << (double)(end - start) << std::endl;
                 return -1;
             }
         }
@@ -141,9 +118,21 @@ namespace ad {
 
             if(index >= length)
                 throw std::invalid_argument("Too big to be true");
-
             return array_ptr[index];
+        }
 
+
+        const T& get_max() {
+            if(!length)
+                throw std::invalid_argument("empty structure");
+            return array_ptr[length - 1];
+        }
+
+
+        const T& get_min() {
+            if(!length)
+                throw std::invalid_argument("empty structure");
+            return array_ptr[0];
         }
 
 
@@ -242,7 +231,6 @@ namespace ad {
 
         }
 
-        std::fstream output;
         T* array_ptr;
         size_t length;
         float amortization;

@@ -8,8 +8,6 @@
 #include <iostream>
 #include <memory>
 #include <functional>
-#include <fstream>
-#include <ctime>
 #include <string>
 
 namespace ad {
@@ -50,7 +48,6 @@ namespace ad {
                 for(size_t i = length; i > index;) {
 
                     array_ptr[i] = array_ptr[--i];
-
                 }
 
                 array_ptr[index] = _data;
@@ -192,33 +189,20 @@ namespace ad {
 
     public:
 
-        expanded_list(size_t arrays_size = 3, std::string file = "/home/anton/projects/bmstu/algs/structures/output",
-                      std::function<bool(const T&, const T&)> compare = std::less<T>()) : head(nullptr),
-                                                                                 tail(nullptr),
-                                                                                 length(0),
-                                                                                 compare_func(compare),
-                                                                                 size(arrays_size)
-        {
-
-            output.open(file);
-            if(!output.is_open())
-                exit(1);
-
-        }
+        expanded_list(size_t arrays_size = 3, std::function<bool(const T&, const T&)> compare = std::less<T>()) : head(nullptr),
+                                                                                                                  tail(nullptr),
+                                                                                                                  length(0),
+                                                                                                                  compare_func(compare),
+                                                                                                                  size(arrays_size) {}
 
 
         void add(T _data) {
-
-            clock_t start = clock();
 
             if (head == nullptr) {
                 head = std::make_shared<Node<T>>(size);
                 head->add(_data, compare_func);
                 tail = head;
                 ++length;
-
-                clock_t end = clock();
-                output << (double)(end - start) << std::endl;
                 return;
             }
 
@@ -231,9 +215,7 @@ namespace ad {
                     if(ptr->has_space()) {
                         ptr->add(_data, compare_func);
                         ++length;
-                        clock_t end = clock();
 
-                        output << (double)(end - start) << std::endl;
                         return;
                     }
 
@@ -244,8 +226,7 @@ namespace ad {
                             if(ptr->prev->has_space()){
                                 ptr->prev->add(_data, compare_func);
                                 ++length;
-                                clock_t end = clock();
-                                output << (double)(end - start) << std::endl;
+
                                 return;
                             }
                         new_ptr->next = ptr;
@@ -258,9 +239,7 @@ namespace ad {
 
                         new_ptr->add(_data, compare_func);
                         ++length;
-                        clock_t end = clock();
 
-                        output << (double)(end - start) << std::endl;
                         return;
                     }
 
@@ -269,9 +248,7 @@ namespace ad {
                             ptr->next->add(ptr->array_ptr[--ptr->length], compare_func);
                             ptr->add(_data, compare_func);
                             ++length;
-                            clock_t end = clock();
 
-                            output << (double)(end - start) << std::endl;
                             return;
                         }
                         ptr->next->prev = new_ptr;
@@ -286,9 +263,7 @@ namespace ad {
                     new_ptr->add(ptr->array_ptr[--ptr->length], compare_func);
                     ptr->add(_data, compare_func);
                     ++length;
-                    clock_t end = clock();
 
-                    output << (double)(end - start) << std::endl;
                     return;
                 }
 
@@ -301,9 +276,7 @@ namespace ad {
             if(ptr->has_space()) {
                 ptr->add(_data, compare_func);
                 ++length;
-                clock_t end = clock();
 
-                output << (double)(end - start) << std::endl;
                 return;
             }
 
@@ -317,16 +290,10 @@ namespace ad {
 
             new_ptr->add(_data, compare_func);
             ++length;
-
-            clock_t end = clock();
-
-            output << (double)(end - start) << std::endl;
         }
 
 
         bool erase(T _data) {
-
-            clock_t start = clock();
 
             if(head == nullptr)
                 return false;
@@ -334,27 +301,17 @@ namespace ad {
             auto ptr = head;
 
             while(ptr) {
-                if (compare_func(_data, ptr->array_ptr[ptr->length - 1]) || _data == ptr->array_ptr[ptr->length - 1]) {
+                if (!compare_func(ptr->array_ptr[ptr->length - 1], _data)) {
                     if (ptr->erase(_data)) {
                         --length;
-                        clock_t end = clock();
-                        output << (double)(end - start) << std::endl;
                         return true;
                     }
                     else {
-                        clock_t end = clock();
-                        output << (double)(end - start)  << std::endl;
                         return false;
                     }
                 }
-
-
                 ptr = ptr->next;
-
             }
-
-            clock_t end = clock();
-            output << (double)(end - start)  << std::endl;
 
             return false;
         }
@@ -362,25 +319,37 @@ namespace ad {
 
         bool search(T _data) {
 
-            clock_t start = clock();
+
             if(head == nullptr)
                 return false;
 
             auto ptr = head;
 
             while(ptr) {
-                if (compare_func(_data, ptr->array_ptr[ptr->length - 1]) || _data == ptr->array_ptr[ptr->length - 1]) {
-                    clock_t end = clock();
-                    output << (double)(end - start)  << std::endl;
+                if (!compare_func(ptr->array_ptr[ptr->length - 1], _data)) {
                     return ptr->search(_data);
                 }
+
+
 
                 ptr = ptr->next;
             }
 
-            clock_t end = clock();
-            output << (double)(end - start)  << std::endl;
             return false;
+        }
+
+
+        const T& get_max() {
+            if(!length)
+                throw std::invalid_argument("empty structure");
+            return tail->array_ptr[tail->length - 1];
+        }
+
+
+        const T& get_min() {
+            if(!length)
+                throw std::invalid_argument("empty structure");
+            return head->array_ptr[0];
         }
 
 
@@ -412,18 +381,11 @@ namespace ad {
         }
 
 
-        ~expanded_list() {
-            output.close();
-//            if(head)
-//                delete head;
-//            if(tail)
-//                delete tail;
-        }
+        ~expanded_list() = default;
 
 
     private:
 
-        std::fstream output;
         std::function<bool(const T&, const T&)> compare_func;
         std::shared_ptr<Node<T>> head;
         std::shared_ptr<Node<T>> tail;

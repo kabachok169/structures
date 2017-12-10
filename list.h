@@ -170,6 +170,11 @@ namespace ad {
         }
 
 
+        size_t count() {
+            return length;
+        }
+
+
         const void print(){
             std::cout << "HEAD: [ " << head->data << " ]" << std::endl;
             auto ptr = head;

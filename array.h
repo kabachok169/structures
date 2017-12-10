@@ -131,6 +131,11 @@ namespace ad {
         }
 
 
+        size_t count() {
+            return length;
+        }
+
+
         void print() {
 
             std::cout << "[ ";

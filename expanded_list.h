@@ -368,6 +368,11 @@ namespace ad {
         }
 
 
+        size_t count() {
+            return length;
+        }
+
+
         const void print(){
 
             std::cout << "HEAD: [ " << *head << " ]" << std::endl;

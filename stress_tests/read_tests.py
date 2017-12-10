@@ -5,11 +5,17 @@ import sys
 
 
 def average(vector):
-    return sum(vector) / len(vector)
+    return float(sum(vector)) / len(vector)
 
+
+def xy(x, y):
+    s = []
+    for i in range(len(x)):
+        s.append(x[i]*y[i])
+    return s
 
 def very_bad_func(x, y):
-    k = (average([xi * yi for xi in x for yi in y]) - average(x) * average(y)) / (average([xi ** 2 for xi in x]) - average(x) ** 2)
+    k = float(average(xy(x, y)) - average(x) * average(y)) / (average([xi ** 2 for xi in x]) - average(x) ** 2)
     b = average(y) - k * average(x)
     return (k, b)
 
@@ -52,11 +58,15 @@ if __name__ == "__main__":
     k3, b3 = very_bad_func(search_x, search_y)
     print k3, b3
 
-    print push_x
+    #print push_x
 
     new_dot_array1 = [k1 * x + b1 for x in push_x]
     new_dot_array2 = [k2 * x + b2 for x in pop_x]
     new_dot_array3 = [k3 * x + b3 for x in search_x]
+
+    new_dot_array1_1 = [2 * k1 * x + b1 for x in push_x]
+    new_dot_array2_1 = [2 * k2 * x + b2 for x in pop_x]
+    new_dot_array3_1 = [2 * k3 * x + b3 for x in search_x]
 
 
     # plt.plot(push_x, push_y, 'r')
@@ -67,7 +77,8 @@ if __name__ == "__main__":
     plt.ylabel("time")
     plt.title("Push")
     plt.scatter(push_x, push_y, edgecolors='r', s=5)
-    plt.plot(new_dot_array1)
+    plt.plot(push_x,new_dot_array1)
+    plt.plot(push_x,new_dot_array1_1)
     # plt.show()
 
     # plt.plot(pop_x, pop_y, 'r')
@@ -76,7 +87,9 @@ if __name__ == "__main__":
     plt.ylabel("time")
     plt.title("Pop")
     plt.scatter(pop_x, pop_y, edgecolors='r', s=10)
-    plt.plot(new_dot_array2)
+    plt.plot(pop_x, new_dot_array2)
+    plt.plot(pop_x,new_dot_array2_1)
+
     # plt.show()
 
     plt.subplot(223)
@@ -84,9 +97,10 @@ if __name__ == "__main__":
     plt.ylabel("time")
     plt.title("Search")
     plt.scatter(search_x, search_y, edgecolors='r', s=10)
-    plt.plot(new_dot_array3)
+    plt.plot(search_x, new_dot_array3)
+    plt.plot(search_x, new_dot_array3_1)
+
     # plt.show()
 
 
     plt.show()
-

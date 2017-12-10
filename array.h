@@ -57,7 +57,10 @@ namespace ad {
 
         bool erase(T _data){
 
-            long int index = search_index(_data);
+            if(!length)
+                return false;
+
+            auto index = search_index(_data);
 
             if(index < 0) {
                 return false;
@@ -74,7 +77,10 @@ namespace ad {
         }
 
 
-        bool search(T _data) {                       //binary search_index
+        bool search(T _data) {     //binary search
+
+            if(!length)
+                return false;
 
             size_t c_multiply = 2;
             size_t right_edge = calc_edge(_data, c_multiply);

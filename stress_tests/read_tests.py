@@ -14,16 +14,3 @@ def very_bad_func(x, y):
     return (k, b)
 
 
-def generate(n, k):
-    result = []
-    for i in range(n):
-        result.append(random.randint(0, k-1))
-    return result
-
-
-def to_string(vector):
-    result = ''
-    for element in vector:
-        result += str(element)
-    return result
-

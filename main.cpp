@@ -7,27 +7,6 @@
 #include <vector>
 
 
-std::vector<size_t> generate(size_t n, size_t k) {
-    std::vector<size_t> vector;
-    for(int i = 0; i < n; ++i) {
-        std::srand(unsigned(std::time(0)));
-        vector.push_back(std::rand() % k);
-    }
-    return vector;
-}
-
-std::string to_string(std::vector<size_t>& input) {
-    std::string result = "";
-    for(int i = 0; i < input.size(); ++i) {
-        result += std::to_string(input[i]);
-    }
-    return result;
-}
-
-
-
-
-
 template <class key_type, class value_type>
 std::ostream& operator<<(std::ostream& stream, const std::pair<key_type, value_type>& pair) {
     stream << "{" << pair.first << ", " << pair.second << "}";

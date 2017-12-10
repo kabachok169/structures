@@ -319,7 +319,6 @@ namespace ad {
 
         bool search(T _data) {
 
-
             if(head == nullptr)
                 return false;
 
@@ -329,8 +328,6 @@ namespace ad {
                 if (!compare_func(ptr->array_ptr[ptr->length - 1], _data)) {
                     return ptr->search(_data);
                 }
-
-
 
                 ptr = ptr->next;
             }

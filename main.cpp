@@ -13,6 +13,7 @@ std::ostream& operator<<(std::ostream& stream, const std::pair<key_type, value_t
     return stream;
 }
 
+
 //template <class key_type, class value_type>
 //friend bool operator==(const std::pair<key_type, value_type>& lhs, const std::pair<key_type, value_type>& rhs) {
 //    return lhs.first == rhs.first;
@@ -23,7 +24,6 @@ template <class key_type, class value_type>
 bool compare_func(const std::pair<key_type, value_type>& lhs, const std::pair<key_type, value_type>& rhs) {
     return lhs.first < rhs.first;
 }
-
 
 
 int main(int argc, char* argv[]) {
@@ -54,19 +54,19 @@ int main(int argc, char* argv[]) {
                 auto start = clock();
                 mylist.add(std::pair<int, int>(key, data));
                 auto end = clock();
-                file_output << (double)(end - start) << std::endl;
+                file_output << "push " + std::to_string((double)(end - start)) << std::endl;
             }
             if(input == "pop"){
                 auto start = clock();
                 mylist.erase(std::pair<int, int>(key, data));
                 auto end = clock();
-                file_output << (double)(end - start) << std::endl;
+                file_output << "pop " + std::to_string((double)(end - start)) << std::endl;
             }
             if(input == "search"){
                 auto start = clock();
                 mylist.search(std::pair<int, int>(key, data));
                 auto end = clock();
-                file_output << (double)(end - start) << std::endl;
+                file_output << "search " + std::to_string((double)(end - start)) << std::endl;
             }
 
         }
@@ -88,19 +88,19 @@ int main(int argc, char* argv[]) {
                 auto start = clock();
                 myarray.add(std::pair<int, int>(key, data));
                 auto end = clock();
-                file_output << (double) (end - start) << std::endl;
+                file_output << "push " + std::to_string((double)(end - start)) << std::endl;
             }
             if (input == "pop") {
                 auto start = clock();
                 myarray.erase(std::pair<int, int>(key, data));
                 auto end = clock();
-                file_output << (double) (end - start) << std::endl;
+                file_output << "pop " + std::to_string((double)(end - start)) << std::endl;
             }
-            if (input == "search_index") {
+            if (input == "search") {
                 auto start = clock();
                 myarray.search(std::pair<int, int>(key, data));
                 auto end = clock();
-                file_output << (double) (end - start) << std::endl;
+                file_output << "search " + std::to_string((double)(end - start)) << std::endl;
             }
 
 
@@ -128,19 +128,19 @@ int main(int argc, char* argv[]) {
                 auto start = clock();
                 myelist.add(std::make_pair<int, int>(std::move(key), std::move(data)));
                 auto end = clock();
-                file_output << (double) (end - start) << std::endl;
+                file_output << "push " + std::to_string((double)(end - start)) << std::endl;
             }
             if(input == "pop"){
                 auto start = clock();
                 myelist.erase(std::make_pair<int, int>(std::move(key), std::move(data)));
                 auto end = clock();
-                file_output << (double) (end - start) << std::endl;
+                file_output << "pop " + std::to_string((double)(end - start)) << std::endl;
             }
-            if(input == "search_index"){
+            if(input == "search"){
                 auto start = clock();
                 myelist.search(std::make_pair<int, int>(std::move(key), std::move(data)));
                 auto end = clock();
-                file_output << (double) (end - start) << std::endl;
+                file_output << "search " + std::to_string((double)(end - start)) << std::endl;
             }
 
 //            myelist.print();

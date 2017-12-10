@@ -7,10 +7,15 @@
 
 
 template <class key_type, class value_type>
-std::ostream& operator<<(std::ostream& stream, std::pair<key_type, value_type>& pair) {
+std::ostream& operator<<(std::ostream& stream, const std::pair<key_type, value_type>& pair) {
     stream << "{" << pair.first << ", " << pair.second << "}";
     return stream;
 }
+
+//template <class key_type, class value_type>
+//friend bool operator==(const std::pair<key_type, value_type>& lhs, const std::pair<key_type, value_type>& rhs) {
+//    return lhs.first == rhs.first;
+//}
 
 
 template <class key_type, class value_type>
@@ -24,9 +29,9 @@ int main(int argc, char* argv[]) {
 
 
 
-    std::fstream file_input("/home/anton/projects/bmstu/algs/structures/input", std::fstream::in);
+    std::fstream file_input("../input", std::fstream::in);
 
-    std::fstream file_output("/home/anton/projects/bmstu/algs/structures/output", std::fstream::out);
+    std::fstream file_output("../output", std::fstream::out);
 
     std::string input;
     file_input >> input;
@@ -67,7 +72,7 @@ int main(int argc, char* argv[]) {
         mylist.print();
     }
     else if(input == "array"){
-        ad::array<std::pair<int, int>> myarray(1, 1.5, compare_func<int, int>);
+        ad::array<std::pair<int, int>> myarray(1, 2, compare_func<int, int>);
         int data = 0, key = 0;
         int n = 0;
         file_input >> n;
@@ -89,16 +94,18 @@ int main(int argc, char* argv[]) {
                 auto end = clock();
                 file_output << (double) (end - start) << std::endl;
             }
-            if (input == "search") {
+            if (input == "search_index") {
                 auto start = clock();
-                myarray.search(std::pair<int, int>(key, data));
+                myarray.search_index(std::pair<int, int>(key, data));
                 auto end = clock();
                 file_output << (double) (end - start) << std::endl;
             }
 
-            myarray.print();
-            std::cout << std::endl;
+
+//            myarray.print();
+//            std::cout << std::endl;
         }
+
 
         myarray.print();
 
@@ -127,7 +134,7 @@ int main(int argc, char* argv[]) {
                 auto end = clock();
                 file_output << (double) (end - start) << std::endl;
             }
-            if(input == "search"){
+            if(input == "search_index"){
                 auto start = clock();
                 myelist.search(std::make_pair<int, int>(std::move(key), std::move(data)));
                 auto end = clock();

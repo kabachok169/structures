@@ -40,35 +40,31 @@ namespace ad {
             }
 
             if(length == 0) {
-                array_ptr[length] = _data;
-                ++length;
-
+                array_ptr[length++] = _data;
                 return;
             }
 
             size_t index = calc_insert_place(_data);
 
-            for(size_t i = length; i > index;) {
-
-                array_ptr[i] = array_ptr[--i];
-
+            for(size_t i = length; i > index; --i) {
+                array_ptr[i] = array_ptr[i - 1];
             }
 
             array_ptr[index] = _data;
-            ++length;
+            length++;
         }
 
 
         bool erase(T _data){
 
-            long int index = search(_data);
+            long int index = search_index(_data);
 
             if(index < 0) {
                 return false;
             }
 
-            for(; index < length - 1;) {
-                array_ptr[index] = array_ptr[++index];
+            for(; index < length - 1; ++index) {
+                array_ptr[index] = array_ptr[index + 1];
             }
 
             --length;
@@ -78,8 +74,7 @@ namespace ad {
         }
 
 
-        long int search(T _data) {                       //binary search
-
+        bool search(T _data) {                       //binary search_index
 
             size_t c_multiply = 2;
             size_t right_edge = calc_edge(_data, c_multiply);
@@ -96,7 +91,7 @@ namespace ad {
                 size_t mdl = (right_edge + left_edge) / 2;
 
                 if(array_ptr[mdl] == _data) {
-                    return mdl;
+                    return true;
                 }
 
                 if(compare_func(_data, array_ptr[mdl]))
@@ -106,10 +101,10 @@ namespace ad {
             }
 
             if(array_ptr[right_edge] == _data) {
-                return right_edge;
+                return true;
             }
             else {
-                return -1;
+                return false;
             }
         }
 
@@ -154,6 +149,40 @@ namespace ad {
 
 
     private:
+
+        long int search_index(T _data) {                       //binary search_index
+
+            size_t c_multiply = 2;
+            size_t right_edge = calc_edge(_data, c_multiply);
+            size_t left_edge = right_edge / c_multiply;
+
+            if(right_edge == c_multiply)
+                left_edge = 0;
+
+            if(right_edge > length)
+                right_edge = length - 1;
+
+            while (left_edge < right_edge) {
+
+                size_t mdl = (right_edge + left_edge) / 2;
+
+                if(array_ptr[mdl] == _data) {
+                    return mdl;
+                }
+
+                if(compare_func(_data, array_ptr[mdl]))
+                    right_edge = mdl - 1;
+                else
+                    left_edge = mdl + 1;
+            }
+
+            if(array_ptr[right_edge] == _data) {
+                return right_edge;
+            }
+            else {
+                return -1;
+            }
+        }
 
         void resize() {
 
@@ -221,14 +250,12 @@ namespace ad {
                 if(!compare_func(array_ptr[right_edge], _data))
                     break;
                 right_edge *= c_multiply;
-
             }
 
             if(right_edge >= length)
                 right_edge = length - 1;
 
             return right_edge;
-
         }
 
         T* array_ptr;

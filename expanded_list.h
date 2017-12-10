@@ -38,16 +38,14 @@ namespace ad {
             bool add(L _data, std::function<bool(const L&, const L&)> compare) {
 
                 if(length == 0) {
-                    array_ptr[length] = _data;
-                    ++length;
+                    array_ptr[length++] = _data;
                     return true;
                 }
 
                 size_t index = calc_insert_place(_data, compare);
 
-                for(size_t i = length; i > index;) {
-
-                    array_ptr[i] = array_ptr[--i];
+                for(size_t i = length; i > index; --i) {
+                    array_ptr[i] = array_ptr[i - 1];
                 }
 
                 array_ptr[index] = _data;
@@ -231,10 +229,12 @@ namespace ad {
                             }
                         new_ptr->next = ptr;
                         new_ptr->prev = ptr->prev;
+
                         if(!ptr->prev)
                             head = new_ptr;
                         else
                             ptr->prev->next = new_ptr;
+
                         ptr->prev = new_ptr;
 
                         new_ptr->add(_data, compare_func);

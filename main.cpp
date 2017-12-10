@@ -5,49 +5,17 @@
 #include <ctime>
 #include <fstream>
 
+
 template <class key_type, class value_type>
-struct my_pair{
-
-    my_pair(){
-        pair.first = 0;
-        pair.second = 0;
-    }
-
-    my_pair(key_type first, value_type second){
-        pair.first = first;
-        pair.second = second;
-    }
-
-    ~my_pair() = default;
-
-
-    std::pair<key_type, value_type> pair;
-
-    my_pair& operator=(my_pair<key_type, value_type>& element){
-        pair.first = element.pair.first;
-        pair.second = element.pair.second;
-        return *this;
-    }
-
-    friend bool operator==(my_pair<key_type, value_type>& lhs, my_pair<key_type, value_type>& rhs) {
-        return lhs.pair.first == rhs.pair.first;
-    }
-
-    friend bool operator!=(my_pair<key_type, value_type>& lhs, my_pair<key_type, value_type>& rhs) {
-        return lhs.pair.first != rhs.pair.first;
-    }
-
-    friend std::ostream& operator<<(std::ostream& stream, const my_pair<key_type, value_type>& element) {
-
-        stream << '{' <<  element.pair.first << ", " << element.pair.second << '}';
-
-    }
-};
+std::ostream& operator<<(std::ostream& stream, std::pair<key_type, value_type>& pair) {
+    stream << "{" << pair.first << ", " << pair.second << "}";
+    return stream;
+}
 
 
 template <class key_type, class value_type>
-bool compare_func(const my_pair<key_type, value_type>& lhs, const my_pair<key_type, value_type>& rhs) {
-    return lhs.pair.first < rhs.pair.first;
+bool compare_func(const std::pair<key_type, value_type>& lhs, const std::pair<key_type, value_type>& rhs) {
+    return lhs.first < rhs.first;
 }
 
 
@@ -56,15 +24,15 @@ int main(int argc, char* argv[]) {
 
 
 
-    std::fstream file_input("/home/anton/projects/bmstu/algs/structures/input");
+    std::fstream file_input("/home/anton/projects/bmstu/algs/structures/input", std::fstream::in);
 
-    std::fstream file_output("/home/anton/projects/bmstu/algs/structures/output");
+    std::fstream file_output("/home/anton/projects/bmstu/algs/structures/output", std::fstream::out);
 
     std::string input;
     file_input >> input;
 
     if(input == "list") {
-        ad::list<my_pair<int, int>> mylist(compare_func<int, int>);
+        ad::list<std::pair<int, int>> mylist(compare_func<int, int>);
         int data = 0;
         int key = 0;
         int n = 0;
@@ -77,19 +45,19 @@ int main(int argc, char* argv[]) {
 
             if(input == "push") {
                 auto start = clock();
-                mylist.add(my_pair<int, int>(key, data));
+                mylist.add(std::pair<int, int>(key, data));
                 auto end = clock();
                 file_output << (double)(end - start) << std::endl;
             }
             if(input == "pop"){
                 auto start = clock();
-                mylist.erase(my_pair<int, int>(key, data));
+                mylist.erase(std::pair<int, int>(key, data));
                 auto end = clock();
                 file_output << (double)(end - start) << std::endl;
             }
             if(input == "search"){
                 auto start = clock();
-                mylist.search(my_pair<int, int>(key, data));
+                mylist.search(std::pair<int, int>(key, data));
                 auto end = clock();
                 file_output << (double)(end - start) << std::endl;
             }
@@ -99,7 +67,7 @@ int main(int argc, char* argv[]) {
         mylist.print();
     }
     else if(input == "array"){
-        ad::array<my_pair<int, int>> myarray(1, 1.5, compare_func<int, int>);
+        ad::array<std::pair<int, int>> myarray(1, 1.5, compare_func<int, int>);
         int data = 0, key = 0;
         int n = 0;
         file_input >> n;
@@ -111,19 +79,19 @@ int main(int argc, char* argv[]) {
 
             if (input == "push") {
                 auto start = clock();
-                myarray.add(my_pair<int, int>(key, data));
+                myarray.add(std::pair<int, int>(key, data));
                 auto end = clock();
                 file_output << (double) (end - start) << std::endl;
             }
             if (input == "pop") {
                 auto start = clock();
-                myarray.erase(my_pair<int, int>(key, data));
+                myarray.erase(std::pair<int, int>(key, data));
                 auto end = clock();
                 file_output << (double) (end - start) << std::endl;
             }
             if (input == "search") {
                 auto start = clock();
-                myarray.search(my_pair<int, int>(key, data));
+                myarray.search(std::pair<int, int>(key, data));
                 auto end = clock();
                 file_output << (double) (end - start) << std::endl;
             }
@@ -137,7 +105,7 @@ int main(int argc, char* argv[]) {
     }
     else if(input == "elist"){
 
-        ad::expanded_list<my_pair<int, int>> myelist(3, compare_func<int, int>);
+        ad::expanded_list<std::pair<int, int>> myelist(3, compare_func<int, int>);
         int data = 0, key = 0;
         int n = 0;
         file_input >> n;
@@ -149,25 +117,25 @@ int main(int argc, char* argv[]) {
 
             if(input == "push"){
                 auto start = clock();
-                myelist.add(my_pair<int, int>(key, data));
+                myelist.add(std::make_pair<int, int>(std::move(key), std::move(data)));
                 auto end = clock();
                 file_output << (double) (end - start) << std::endl;
             }
             if(input == "pop"){
                 auto start = clock();
-                myelist.erase(my_pair<int, int>(key, data));
+                myelist.erase(std::make_pair<int, int>(std::move(key), std::move(data)));
                 auto end = clock();
                 file_output << (double) (end - start) << std::endl;
             }
             if(input == "search"){
                 auto start = clock();
-                myelist.search(my_pair<int, int>(key, data));
+                myelist.search(std::make_pair<int, int>(std::move(key), std::move(data)));
                 auto end = clock();
                 file_output << (double) (end - start) << std::endl;
             }
 
-            myelist.print();
-            std::cout << std::endl;
+//            myelist.print();
+//            std::cout << std::endl;
 
         }
 

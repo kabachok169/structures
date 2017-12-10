@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import matplotlib.pyplot as plt
 import sys
 
@@ -26,32 +28,40 @@ if __name__ == "__main__":
     search_y = []
 
     strings = my_file.read().split('\n')
-    strings.erase(len(strings) - 1) # удаляем пустую строку
+    strings.pop(len(strings) - 1)
 
     for string in strings:
         details = string.split(" ")
         if(details[0] == "push"):
             push_x.append(count)
             count += 1
-            push_y.append(details[1])
+            push_y.append(float(details[1]))
         elif(details[0] == "pop"):
             pop_x.append(count)
-            count -= 1
-            pop_y.append(details[1])
+            if count:
+                count -= 1
+            pop_y.append(float(details[1]))
         elif (details[0] == "search"):
             search_x.append(count)
-            search_y.append(details[1])
+            search_y.append(float(details[1]))
 
     k1, b1 = very_bad_func(push_x, push_y)
-    k2, b2 = very_bad_func(push_x, push_y)
-    k3, b3 = very_bad_func(push_x, push_y)
+    print k1, b1
+    k2, b2 = very_bad_func(pop_x, pop_y)
+    print k2, b2
+    k3, b3 = very_bad_func(search_x, search_y)
+    print k3, b3
 
-    new_dot_array1 = [k1*x + b1 for x in push_x]
-    new_dot_array2 = [k2*x + b2 for x in pop_x]
-    new_dot_array3 = [k3*x + b3 for x in search_x]
+    print push_x
+
+    new_dot_array1 = [k1 * x + b1 for x in push_x]
+    new_dot_array2 = [k2 * x + b2 for x in pop_x]
+    new_dot_array3 = [k3 * x + b3 for x in search_x]
 
 
     # plt.plot(push_x, push_y, 'r')
+
+    plt.figure(figsize=(30, 40))
     plt.subplot(221)
     plt.xlabel("count of objects")
     plt.ylabel("time")
@@ -76,6 +86,7 @@ if __name__ == "__main__":
     plt.scatter(search_x, search_y, edgecolors='r', s=10)
     plt.plot(new_dot_array3)
     # plt.show()
+
 
     plt.show()
 

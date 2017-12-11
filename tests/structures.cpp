@@ -68,10 +68,12 @@ TEST_CASE( "Testing array" ) {
         REQUIRE(!mylist.search(std::pair<int, int>(5, 1)));
         REQUIRE(!mylist.search(std::pair<int, int>(7, 0)));
         REQUIRE(!mylist.search(std::pair<int, int>(9, 0)));
+        REQUIRE(!mylist.search(std::pair<int, int>(19, 0)));
         REQUIRE(mylist.search(std::pair<int, int>(5, 26)));
         REQUIRE(mylist.search(std::pair<int, int>(2, 1)));
         REQUIRE(mylist.search(std::pair<int, int>(25, 45)));
         REQUIRE(mylist.search(std::pair<int, int>(76, 2)));
+        REQUIRE(mylist.search(std::pair<int, int>(300, 2)));
     }
 }
 

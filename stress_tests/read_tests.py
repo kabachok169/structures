@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import sys
+import math
 
 
 def average(vector):
@@ -17,6 +18,12 @@ def xy(x, y):
 def very_bad_func(x, y):
     k = float(average(xy(x, y)) - average(x) * average(y)) / (average([xi ** 2 for xi in x]) - average(x) ** 2)
     b = average(y) - k * average(x)
+    return (k, b)
+
+def very_bad_func_log(x, y):
+    lnx = [math.log(xi) for xi in x]
+    k = float(average(xy(lnx, y)) - average(lnx) * average(y)) / (average([xi ** 2 for xi in lnx]) - average(lnx) ** 2)
+    b = average(y) - k * average(lnx)
     return (k, b)
 
 if __name__ == "__main__":
@@ -55,14 +62,14 @@ if __name__ == "__main__":
     print k1, b1
     k2, b2 = very_bad_func(pop_x, pop_y)
     print k2, b2
-    k3, b3 = very_bad_func(search_x, search_y)
+    k3, b3 = very_bad_func_log(search_x, search_y)
     print k3, b3
 
     #print push_x
 
     new_dot_array1 = [k1 * x + b1 for x in push_x]
     new_dot_array2 = [k2 * x + b2 for x in pop_x]
-    new_dot_array3 = [k3 * x + b3 for x in search_x]
+    new_dot_array3 = [k3 * math.log(x) + b3 for x in search_x]
 
     new_dot_array1_1 = [2 * k1 * x + b1 for x in push_x]
     new_dot_array2_1 = [2 * k2 * x + b2 for x in pop_x]
@@ -98,7 +105,7 @@ if __name__ == "__main__":
     plt.title("Search")
     plt.scatter(search_x, search_y, edgecolors='r', s=10)
     plt.plot(search_x, new_dot_array3)
-    plt.plot(search_x, new_dot_array3_1)
+    # plt.plot(search_x, new_dot_array3_1)
 
     # plt.show()
 

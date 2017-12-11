@@ -12,10 +12,10 @@ if __name__ == "__main__":
     counter = 0
     pushed = []
 
-    for i in range(int(number) / 10):
-        key = random.randint(0, 100000)
-        value = random.randint(0, 5000)
-        pushed.append((key, value))
+    # for i in range(int(number) / 10):
+    #     key = random.randint(0, 100000)
+    #     value = random.randint(0, 5000)
+    #     pushed.append((key, value))
 
     with open(filename, 'w') as file:
         file.write(structure + "\n")

@@ -101,7 +101,7 @@ namespace ad {
                 }
 
                 if(compare_func(_data, array_ptr[mdl]))
-                    right_edge = mdl - 1;
+                    right_edge = mdl;
                 else
                     left_edge = mdl + 1;
             }

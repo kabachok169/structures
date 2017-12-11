@@ -31,9 +31,9 @@ int main(int argc, char* argv[]) {
 
     std::cout << argv[1] << std::endl;
     std::cout << argv[2] << std::endl;
-    std::fstream file_input(argv[1], std::fstream::in);
+    std::fstream file_input("../input", std::fstream::in);
 
-    std::fstream file_output(argv[2], std::fstream::out);
+    std::fstream file_output("../output", std::fstream::out);
 
     std::string input;
     file_input >> input;

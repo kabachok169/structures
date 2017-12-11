@@ -10,7 +10,7 @@ white='\e[0m'
 
 cd stress_tests/
 
-./main_tests.py $1 ../input $2
+./$3 $1 ../input $2
 
 cd ..
 ./test_structures input output

@@ -62,14 +62,14 @@ if __name__ == "__main__":
     print k1, b1
     k2, b2 = very_bad_func(pop_x, pop_y)
     print k2, b2
-    k3, b3 = very_bad_func_log(search_x, search_y)
+    k3, b3 = very_bad_func(search_x, search_y)
     print k3, b3
 
     #print push_x
 
     new_dot_array1 = [k1 * x + b1 for x in push_x]
     new_dot_array2 = [k2 * x + b2 for x in pop_x]
-    new_dot_array3 = [k3 * math.log(x) + b3 for x in search_x]
+    new_dot_array3 = [k3 * x + b3 for x in search_x]
 
     new_dot_array1_1 = [2 * k1 * x + b1 for x in push_x]
     new_dot_array2_1 = [2 * k2 * x + b2 for x in pop_x]

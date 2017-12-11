@@ -50,28 +50,36 @@ int main(int argc, char* argv[]) {
             file_input >> key;
             file_input >> data;
 
-            if(input == "push") {
+            if (input == "push") {
                 auto start = clock();
                 mylist.add(std::pair<int, int>(key, data));
                 auto end = clock();
-                file_output << "push " + std::to_string((double)(end - start)) << std::endl;
+                file_output << "push " + std::to_string((double) (end - start)) << std::endl;
             }
-            if(input == "pop"){
+            if (input == "pop") {
                 auto start = clock();
                 mylist.erase(std::pair<int, int>(key, data));
                 auto end = clock();
-                file_output << "pop " + std::to_string((double)(end - start)) << std::endl;
+                file_output << "pop " + std::to_string((double) (end - start)) << std::endl;
             }
-            if(input == "search"){
+            if (input == "search") {
                 auto start = clock();
                 mylist.search(std::pair<int, int>(key, data));
                 auto end = clock();
-                file_output << "search " + std::to_string((double)(end - start)) << std::endl;
+                file_output << "search " + std::to_string((double) (end - start)) << std::endl;
             }
-
+            if (input == "min") {
+                std::cout << mylist.get_min();
+            }
+            if (input == "max") {
+                std::cout << mylist.get_max();
+            }
+            if (input == "print") {
+                mylist.print();
+            }
         }
 
-        mylist.print();
+//        mylist.print();
     }
     else if(input == "array"){
         ad::array<std::pair<int, int>> myarray(1, 2, compare_func<int, int>);
@@ -102,6 +110,15 @@ int main(int argc, char* argv[]) {
                 auto end = clock();
                 file_output << "search " + std::to_string((double)(end - start)) << std::endl;
             }
+            if(input == "min"){
+                std::cout << myarray.get_min();
+            }
+            if(input == "max"){
+                std::cout << myarray.get_max();
+            }
+            if(input == "print"){
+                myarray.print();
+            }
 
 
 //            myarray.print();
@@ -109,7 +126,7 @@ int main(int argc, char* argv[]) {
         }
 
 
-        myarray.print();
+//        myarray.print();
 
     }
     else if(input == "elist"){
@@ -142,13 +159,22 @@ int main(int argc, char* argv[]) {
                 auto end = clock();
                 file_output << "search " + std::to_string((double)(end - start)) << std::endl;
             }
+            if(input == "min"){
+                std::cout << myelist.get_min();
+            }
+            if(input == "max"){
+                std::cout << myelist.get_max();
+            }
+            if(input == "print"){
+                myelist.print();
+            }
 
 //            myelist.print();
 //            std::cout << std::endl;
 
         }
 
-       myelist.print();
+//       myelist.print();
     }
 
     file_input.close();

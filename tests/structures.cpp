@@ -45,6 +45,12 @@ TEST_CASE( "Testing array" ) {
         REQUIRE(mylist[0] == std::pair<int, int>(2, 1));
         REQUIRE(mylist[1] == std::pair<int, int>(5, 26));
         REQUIRE(mylist[2] == std::pair<int, int>(76, 2));
+
+        mylist.erase(std::pair<int, int>(2, 1));
+        mylist.erase(std::pair<int, int>(5, 26));
+        mylist.erase(std::pair<int, int>(76, 2));
+
+        REQUIRE(mylist.count() == 0);
     }
 
     SECTION("Search") {
@@ -97,6 +103,12 @@ TEST_CASE( "Testing list" ) {
         REQUIRE(mylist[0] == std::pair<int, int>(2, 1));
         REQUIRE(mylist[1] == std::pair<int, int>(5, 26));
         REQUIRE(mylist[2] == std::pair<int, int>(76, 2));
+
+        mylist.erase(std::pair<int, int>(2, 1));
+        mylist.erase(std::pair<int, int>(5, 26));
+        mylist.erase(std::pair<int, int>(76, 2));
+
+        REQUIRE(mylist.count() == 0);
     }
 
     SECTION("Search") {
@@ -140,6 +152,13 @@ TEST_CASE( "Testing e_list" ) {
         REQUIRE(mylist[0] == std::pair<int, int>(2, 1));
         REQUIRE(mylist[1] == std::pair<int, int>(5, 26));
         REQUIRE(mylist[2] == std::pair<int, int>(76, 2));
+
+        mylist.erase(std::pair<int, int>(2, 1));
+        mylist.erase(std::pair<int, int>(5, 26));
+//        mylist.erase(std::pair<int, int>(76, 2));
+
+        REQUIRE(mylist.count() == 1);
+        REQUIRE(mylist[0] == std::pair<int, int>(76, 2));
     }
 
     SECTION("Search") {

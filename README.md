@@ -203,8 +203,12 @@
 Для этого генерируется 10000 различных данных(данные - последовательности команд). На основе этого путем реализации линейной регрессии вычисляется примерный вид выходной функции.
 Ниже представлены графики тестирования для всех функций всех структур:  
 1. Массив
+![image1](https://github.com/kabachok169/structures/blob/master/imgs/array.png "Sorted array")
 2. Список
+![image2](https://github.com/kabachok169/structures/blob/master/imgs/list.png "Sorted list")
 3. Развернутый список
+![image3](https://github.com/kabachok169/structures/blob/master/imgs/elist.png "Sorted expanded_list")
+
 
 Как можно заметить, сложность была доказана верно, т.к. график выходной функции имеет линейный вид.
 

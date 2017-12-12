@@ -70,6 +70,7 @@ int main(int argc, char* argv[]) {
     int key = 0;
     int n = 0;
     file_input >> n;
+    file_input >> input; // crutch
 
     for (int i = 0; i < n; ++i) {
         file_input >> input;

@@ -20,7 +20,7 @@ if __name__ == "__main__":
     with open(filename, 'w') as file:
         file.write(structure + "\n")
         file.write(number + "\n")
-        for i in range(int(number) - 1):
+        for i in range(int(number)):
 
             command = random.randint(0, 20)
 
@@ -42,7 +42,9 @@ if __name__ == "__main__":
                     key, value = random.choice(pushed)
                     file.write("search {}\n".format(key))
 
-        file.write("print")
+
+
+        # file.write("print")
 
 
 

@@ -116,7 +116,7 @@ if __name__ == "__main__":
     #
     # # print push_elist_x
     # print push_elist_y
-    # 
+    #
     # # print push_list_x
     # print pop_list_y
     #
@@ -210,3 +210,5 @@ if __name__ == "__main__":
 
 
     plt.show()
+
+

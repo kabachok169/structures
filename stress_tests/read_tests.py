@@ -58,12 +58,13 @@ if __name__ == "__main__":
             search_x.append(count)
             search_y.append(float(details[1]))
 
-    k1, b1 = very_bad_func(push_x, push_y)
-    print k1, b1
-    k2, b2 = very_bad_func(pop_x, pop_y)
-    print k2, b2
-    k3, b3 = very_bad_func(search_x, search_y)
-    print k3, b3
+    if len(push_x) != 0 and len(push_y) != 0:
+        k1, b1 = very_bad_func(push_x, push_y)
+    if len(pop_x) != 0 and len(pop_y) != 0:
+        k2, b2 = very_bad_func(pop_x, pop_y)
+    if len(search_x) != 0 and len(search_y) != 0:
+        k3, b3 = very_bad_func(search_x, search_y)
+
 
     #print push_x
 

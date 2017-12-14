@@ -75,6 +75,32 @@ TEST_CASE( "Testing array" ) {
         REQUIRE(mylist.search(std::pair<int, int>(76, 2)));
         REQUIRE(mylist.search(std::pair<int, int>(300, 2)));
     }
+
+    SECTION("get_min") {
+        ad::array<std::pair<int, int>> mylist(1, 2, compare_func<int, int>);
+
+        mylist.add(std::pair<int, int>(5, 26));
+        mylist.add(std::pair<int, int>(2, 1));
+        mylist.add(std::pair<int, int>(25, 45));
+        mylist.add(std::pair<int, int>(76, 2));
+        mylist.add(std::pair<int, int>(34, 2));
+        mylist.add(std::pair<int, int>(56, 2));
+
+        REQUIRE(mylist.get_min() == std::pair<int, int>(2, 1));
+    }
+
+    SECTION("get_max") {
+        ad::array<std::pair<int, int>> mylist(1, 2, compare_func<int, int>);
+
+        mylist.add(std::pair<int, int>(5, 26));
+        mylist.add(std::pair<int, int>(2, 1));
+        mylist.add(std::pair<int, int>(25, 45));
+        mylist.add(std::pair<int, int>(76, 2));
+        mylist.add(std::pair<int, int>(34, 2));
+        mylist.add(std::pair<int, int>(56, 2));
+
+        REQUIRE(mylist.get_max() == std::pair<int, int>(76, 2));
+    }
 }
 
 
@@ -123,6 +149,28 @@ TEST_CASE( "Testing list" ) {
 
         REQUIRE(!mylist.search(std::pair<int, int>(0, 0)));
         REQUIRE(mylist.search(std::pair<int, int>(5, 26)));
+    }
+
+    SECTION("get_min") {
+        ad::list<std::pair<int, int>> mylist(compare_func<int, int>);
+
+        mylist.add(std::pair<int, int>(5, 26));
+        mylist.add(std::pair<int, int>(2, 1));
+        mylist.add(std::pair<int, int>(25, 45));
+        mylist.add(std::pair<int, int>(76, 2));
+
+        REQUIRE(mylist.get_min() == std::pair<int, int>(2, 1));
+    }
+
+    SECTION("get_max") {
+        ad::list<std::pair<int, int>> mylist(compare_func<int, int>);
+
+        mylist.add(std::pair<int, int>(5, 26));
+        mylist.add(std::pair<int, int>(2, 1));
+        mylist.add(std::pair<int, int>(25, 45));
+        mylist.add(std::pair<int, int>(76, 2));
+
+        REQUIRE(mylist.get_max() == std::pair<int, int>(76, 2));
     }
 }
 
@@ -173,5 +221,27 @@ TEST_CASE( "Testing e_list" ) {
 
         REQUIRE(!mylist.search(std::pair<int, int>(0, 0)));
         REQUIRE(mylist.search(std::pair<int, int>(5, 26)));
+    }
+
+    SECTION("get_min") {
+        ad::expanded_list<std::pair<int, int>> mylist(3, compare_func<int, int>);
+
+        mylist.add(std::pair<int, int>(5, 26));
+        mylist.add(std::pair<int, int>(2, 1));
+        mylist.add(std::pair<int, int>(25, 45));
+        mylist.add(std::pair<int, int>(76, 2));
+
+        REQUIRE(mylist.get_min() == std::pair<int, int>(2, 1));
+    }
+
+    SECTION("get_max") {
+        ad::expanded_list<std::pair<int, int>> mylist(3, compare_func<int, int>);
+        
+        mylist.add(std::pair<int, int>(5, 26));
+        mylist.add(std::pair<int, int>(2, 1));
+        mylist.add(std::pair<int, int>(25, 45));
+        mylist.add(std::pair<int, int>(76, 2));
+
+        REQUIRE(mylist.get_max() == std::pair<int, int>(76, 2));
     }
 }

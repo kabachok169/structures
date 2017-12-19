@@ -6,6 +6,7 @@
 #include <iostream>
 #include <memory>
 #include <functional>
+#include <sstream>
 
 
 namespace ad {
@@ -175,15 +176,15 @@ namespace ad {
         }
 
 
-        const void print(){
-            std::cout << "HEAD: [ " << head->data << " ]" << std::endl;
+        void print(std::stringstream& stream){
+
             auto ptr = head;
             while(ptr->next != nullptr) {
-                std::cout << ptr->data << " -> ";
+                stream << ptr->data << " -> ";
                 ptr = ptr->next;
             }
-            std::cout << ptr->data << std::endl;
-            std::cout << "TAIL: [ " << tail->data << " ]" << std::endl;
+            stream << ptr->data;
+
         }
 
 

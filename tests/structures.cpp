@@ -101,6 +101,18 @@ TEST_CASE( "Testing array" ) {
 
         REQUIRE(mylist.get_max() == std::pair<int, int>(76, 2));
     }
+
+    SECTION("print") {
+        std::stringstream ss;
+        ad::array<std::pair<int, int>> mylist(1, 2, compare_func<int, int>);
+
+        mylist.add(std::pair<int, int>(5, 26));
+        mylist.add(std::pair<int, int>(2, 1));
+        mylist.print(ss);
+
+        REQUIRE(ss.str() == std::string("[{2, 1}, {5, 26}]"));
+        ss.clear();
+    }
 }
 
 
@@ -172,6 +184,18 @@ TEST_CASE( "Testing list" ) {
 
         REQUIRE(mylist.get_max() == std::pair<int, int>(76, 2));
     }
+
+    SECTION("print") {
+        std::stringstream ss;
+        ad::list<std::pair<int, int>> mylist(compare_func<int, int>);
+
+        mylist.add(std::pair<int, int>(5, 26));
+        mylist.add(std::pair<int, int>(2, 1));
+        mylist.print(ss);
+
+        REQUIRE(ss.str() == std::string("{2, 1} -> {5, 26}"));
+        ss.clear();
+    }
 }
 
 
@@ -236,12 +260,26 @@ TEST_CASE( "Testing e_list" ) {
 
     SECTION("get_max") {
         ad::expanded_list<std::pair<int, int>> mylist(3, compare_func<int, int>);
-        
+
         mylist.add(std::pair<int, int>(5, 26));
         mylist.add(std::pair<int, int>(2, 1));
         mylist.add(std::pair<int, int>(25, 45));
         mylist.add(std::pair<int, int>(76, 2));
 
         REQUIRE(mylist.get_max() == std::pair<int, int>(76, 2));
+    }
+
+    SECTION("print") {
+        std::stringstream ss;
+        ad::expanded_list<std::pair<int, int>> mylist(3, compare_func<int, int>);
+
+        mylist.add(std::pair<int, int>(5, 26));
+        mylist.add(std::pair<int, int>(2, 1));
+        mylist.add(std::pair<int, int>(5, 2));
+        mylist.add(std::pair<int, int>(3, 3));
+        mylist.print(ss);
+
+        REQUIRE(ss.str() == std::string("[ {2, 1}, {3, 3}, {5, 2} ] -> [ {5, 26} ]"));
+        ss.clear();
     }
 }

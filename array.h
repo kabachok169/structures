@@ -9,6 +9,8 @@
 #include <memory>
 #include <functional>
 #include <cmath>
+#include <string>
+#include <sstream>
 
 
 namespace ad {
@@ -142,15 +144,12 @@ namespace ad {
         }
 
 
-        void print() {
+        void print(std::stringstream& stream) {
+            stream << "[";
+            for(int i = 0; i < length - 1; ++i)
+                stream << array_ptr[i] << ", ";
 
-            std::cout << "[ ";
-            for(size_t i = 0; i < length - 1; ++i) {
-
-                std::cout << array_ptr[i] << ", ";
-            }
-            std::cout << array_ptr[length - 1] << " ]" << std::endl;
-
+            stream << array_ptr[length - 1] << "]";
         }
 
 

@@ -370,16 +370,13 @@ namespace ad {
         }
 
 
-        const void print(){
-
-            std::cout << "HEAD: [ " << *head << " ]" << std::endl;
+        void print(std::stringstream& stream){
             auto ptr = head;
             while(ptr->next != nullptr) {
-                std::cout << *ptr << " -> ";
+                stream << *ptr << " -> ";
                 ptr = ptr->next;
             }
-            std::cout << *ptr << std::endl;
-            std::cout << "TAIL: [ " << *tail<< " ]" << std::endl;
+            stream << *ptr;
         }
 
 

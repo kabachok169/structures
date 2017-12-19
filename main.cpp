@@ -49,7 +49,8 @@ bool compare_func(const my_pair<key_type, value_type>& lhs, const my_pair<key_ty
 
 int main(int argc, char* argv[]) {
 
-
+    std::stringstream ss;
+    std::pair<int, int> k(1, 2);
     std::cout << argv[1] << std::endl;
     std::cout << argv[2] << std::endl;
 
@@ -99,7 +100,9 @@ int main(int argc, char* argv[]) {
                 std::cout << mylist.get_max();
             }
             if (input == "print") {
-                mylist.print();
+                mylist.print(ss);
+                std::cout << ss.str();
+                ss.clear();
             }
         }
 
@@ -141,7 +144,9 @@ int main(int argc, char* argv[]) {
                 std::cout << myarray.get_max();
             }
             if(input == "print"){
-                myarray.print();
+                myarray.print(ss);
+                std::cout << ss.str();
+                ss.clear();
             }
 
 
@@ -190,7 +195,9 @@ int main(int argc, char* argv[]) {
                 std::cout << myelist.get_max();
             }
             if(input == "print"){
-                myelist.print();
+                myelist.print(ss);
+                std::cout << ss.str();
+                ss.clear();
             }
 
 //            myelist.print();
